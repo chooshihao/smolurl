@@ -1,5 +1,4 @@
-from flask import Flask, request, redirect, jsonify
-from markupsafe import escape
+from flask import Flask, request, Response, jsonify
 from models.ShortURL import ShortURL, db
 from hashids import Hashids
 import configparser
@@ -23,7 +22,6 @@ def main():
 	db.init_app(app)
 
 	app.add_url_rule("/", "helloworld", hello_world, methods=["GET"])
-	app.add_url_rule("/<url_id>", "resolveurl", resolveURL, methods=["GET"])
 	app.add_url_rule("/app/create", "createurl", createURL, methods=["POST"])
 
 	app.run(debug=True, host=config["default"]["host"], port=int(config["default"]["port"]))
@@ -47,12 +45,6 @@ def createURL():
 	db.session.commit()
 
 	return jsonify({"status": "success", "short_url_id": shorturl_entry.url_id})
-
-def resolveURL(url_id):
-	shorturl_entry = ShortURL.query.filter_by(url_id=url_id).first()
-
-	return redirect(escape(shorturl_entry.original_url))
-
 
 if __name__ == "__main__":
 	main()
