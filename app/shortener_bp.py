@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, request, jsonify
 from markupsafe import escape
-from models import ShortURL, db
+from .models import ShortURL, db
 from hashids import Hashids
 
 shortener_bp = Blueprint("shortener_bp", __name__)
