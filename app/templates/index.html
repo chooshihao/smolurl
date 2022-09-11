@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="static\bootstrap-5.2.1-dist\css\bootstrap.min.css" rel="stylesheet">
   <script src="static\bootstrap-5.2.1-dist\js\bootstrap.bundle.min.js"></script>
+  <script src="static\requests.js"></script>
 </head>
 <body>
   <div class="container-fluid p-5 bg-dark text-white text-center">
@@ -17,18 +18,52 @@
     <div class="row">
       <div class="col-md-12 px-3 py-3">
         <label class="col-md-6 offset-md-2" >
-          <h3>
-            Shorten your URL!
-          </h3>
+          <h3>Shorten your URL!</h3>
         </label>
-        <form class="row">
+        <form class="row" id="shorten_url_form" onsubmit="postShortenURL()" action="#">
           <div class="col-md-6 offset-md-2 py-3">
-            <input type="text" class="form-control" id="original_id" placeholder="URL you wish to Shorten">
+            <input type="text" class="form-control" id="original_url" placeholder="URL you wish to shorten">
           </div>
           <div class="col-md-2 py-3">
             <button type="submit" class="btn col-12 btn-primary">Shorten!</button>
           </div>
         </form>
+      </div>
+    </div>
+    <div id="output" style="display: none;">
+      <div class="row">
+        <div class="col-md-12 px-3 py-3">
+          <label class="col-md-6 offset-md-2" >
+            <h3 id="result_label">Your original URL</h3>
+          </label>
+        </div>
+        <div class="col-md-12 px-3 py-3">
+          <div class="row">
+            <div class="col-md-6 offset-md-2 py-3">
+              <input type="text" class="form-control" id="long_url" value="" disabled=true>
+            </div>
+            <div class="col-md-2 py-3">
+              <button type="button" id="long_copy_btn" class="btn col-12 btn-primary">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 px-3 py-3">
+          <label class="col-md-6 offset-md-2" >
+            <h3 id="result_label">Your shortened URL</h3>
+          </label>
+        </div>
+        <div class="col-md-12 px-3 py-3">
+          <div class="row">
+            <div class="col-md-6 offset-md-2 py-3">
+              <input type="text" class="form-control" id="short_url" value="" disabled=true>
+            </div>
+            <div class="col-md-2 py-3">
+              <button type="button" id="short_copy_btn" class="btn col-12 btn-primary">Copy</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
