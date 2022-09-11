@@ -9,7 +9,7 @@ def loadConfig(configFilename):
 
 	return config
 
-def init_app(testing=True):
+def init_app(testing=False):
 	app = Flask(__name__)
 	print(app.root_path)
 
