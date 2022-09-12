@@ -3,20 +3,16 @@ from flask import Flask
 from .models import db
 from .shortener_bp import shortener_bp
 
-def loadConfig(configFilename: str) -> ConfigParser:
+def loadConfig(configpath: str) -> ConfigParser:
 	config = ConfigParser()
-	config.read(configFilename)
+	config.read(configpath)
 
 	return config
 
-def init_app(testing: bool=False) -> Flask:
+def init_app(configpath: str="app/app.conf") -> Flask:
 	app = Flask(__name__)
 
-	if testing:
-		app.testing = True
-		config = loadConfig("tests/test.conf")
-	else:
-		config = loadConfig("app/app.conf")
+	config = loadConfig(configpath)
 
 	app.config["SQLALCHEMY_DATABASE_URI"] = config["default"]["db_uri"]
 	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
