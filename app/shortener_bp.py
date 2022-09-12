@@ -1,8 +1,10 @@
-from urllib import response
+import json
+from wsgiref import validate
 from flask import Blueprint, redirect, request, jsonify, render_template
 from markupsafe import escape
 from .models import ShortURL, db
 from hashids import Hashids
+import validators
 
 shortener_bp = Blueprint("shortener_bp", __name__)
 
@@ -16,7 +18,6 @@ def resolveURL(url_id):
 		return
 
 	shorturl_entry = ShortURL.query.filter_by(url_id=url_id).first()
-	# TODO: handle invalid id
 
 	if shorturl_entry:
 		return redirect(escape(shorturl_entry.original_url))
@@ -32,7 +33,8 @@ def createURL():
 	json_data = request.get_json(force=True)
 	original_url = json_data["original_url"]
 
-	# TODO: validate URL
+	if not isValidURL(original_url):
+		return jsonify({"status": "failure", "message": "url is invalid"}), 400
 
 	shorturl_entry = ShortURL(original_url=original_url)
 	
@@ -42,3 +44,9 @@ def createURL():
 	db.session.commit()
 
 	return jsonify({"status": "success", "short_url_id": shorturl_entry.url_id})
+
+def isValidURL(url):
+	if not url.startswith("http://") and not url.startswith("https://"):
+		url = "http://" + url
+
+	return validators.url(url)
