@@ -16,6 +16,10 @@ async function postShortenURL(event) {
 				res.json().then(function(data){
 					onSuccessShorten(body.original_url, data.short_url_id)
 				});
+			} else if(res.status === 400) {
+				res.json().then(function(data){
+					alert(data.message)
+				});
 			}
 		}
 	).catch(function(error) {

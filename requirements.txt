@@ -1,5 +1,5 @@
 Flask
 Flask-SQLAlchemy
 hashids
-pytest
 mysqlclient
+validators
