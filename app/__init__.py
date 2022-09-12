@@ -1,17 +1,16 @@
-import configparser
+from configparser import ConfigParser
 from flask import Flask
 from .models import db
 from .shortener_bp import shortener_bp
 
-def loadConfig(configFilename):
-	config = configparser.ConfigParser()
+def loadConfig(configFilename: str) -> ConfigParser:
+	config = ConfigParser()
 	config.read(configFilename)
 
 	return config
 
-def init_app(testing=False):
+def init_app(testing: bool=False) -> Flask:
 	app = Flask(__name__)
-	print(app.root_path)
 
 	if testing:
 		app.testing = True
