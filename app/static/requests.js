@@ -39,7 +39,8 @@ function onSuccessShorten(originalurl, shorturl) {
 	document.getElementById("output").style.display = "";
 }
 
-function copyURLToClipboard(inputelement, event) {
+function copyURLToClipboard(input_id, event) {
+	const inputelement = document.getElementById(input_id);
 	inputelement.select();
 	inputelement.setSelectionRange(0, 99999);
 
@@ -47,6 +48,7 @@ function copyURLToClipboard(inputelement, event) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	document.getElementById("long_copy_btn").addEventListener("click", (event) => copyURLToClipboard(document.getElementById("long_url"), event));
-	document.getElementById("short_copy_btn").addEventListener("click", (event) => copyURLToClipboard(document.getElementById("short_url"), event));
+	document.getElementById("shorten_url_form").addEventListener('submit', event => event.preventDefault());
+	document.getElementById("long_copy_btn").addEventListener("click", (event) => copyURLToClipboard("long_url", event));
+	document.getElementById("short_copy_btn").addEventListener("click", (event) => copyURLToClipboard("short_url", event));
 });
