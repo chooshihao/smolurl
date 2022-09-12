@@ -22,7 +22,9 @@ def init_app(testing: bool=False) -> Flask:
 	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 	db.init_app(app)
-	app.config["DATABASE"] = db
+
+	with app.app_context():
+		db.create_all()
 
 	app.register_blueprint(shortener_bp)
 
