@@ -34,7 +34,7 @@ function setURL(url, target_element) {
 function onSuccessShorten(originalurl, shorturl) {
 	console.log(originalurl, shorturl);
 	setURL(originalurl, document.getElementById("long_url"));
-	setURL(shorturl, document.getElementById("short_url"));
+	setURL(window.location.href + shorturl, document.getElementById("short_url"));
 
 	document.getElementById("output").style.display = "";
 }
