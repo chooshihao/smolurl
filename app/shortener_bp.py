@@ -34,6 +34,9 @@ def createURL():
 	if not isValidURL(original_url):
 		return jsonify({"status": "failure", "message": "url is invalid"}), 400
 
+	if not original_url.startswith("http://") and not original_url.startswith("https://"):
+		original_url = "http://" + original_url
+
 	shorturl_entry = ShortURL(original_url=original_url)
 	
 	db.session.add(shorturl_entry)
