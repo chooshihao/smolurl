@@ -12,6 +12,7 @@ def renderHome():
 
 @shortener_bp.route("/<url_id>", methods=["GET"])
 def resolveURL(url_id):
+	# prevents endpoint from trigger when "/" is browsed
 	if not url_id:
 		return
 
@@ -22,6 +23,7 @@ def resolveURL(url_id):
 	else:
 		return render_template("404.html"), 404
 
+# given integer returns a hash value
 def generateURLID(val: int, min_length: int=6, salt: str="testing") -> str:
 	hid = Hashids(salt=salt, min_length=min_length)
 	return hid.encode(val)
@@ -34,12 +36,14 @@ def createURL():
 	if not isValidURL(original_url):
 		return jsonify({"status": "failure", "message": "url is invalid"}), 400
 
+	# add HTTP to start of URL to make it valid if it is missing
 	if not original_url.startswith("http://") and not original_url.startswith("https://"):
 		original_url = "http://" + original_url
 
 	shorturl_entry = ShortURL(original_url=original_url)
 	
 	db.session.add(shorturl_entry)
+	# flush to retrieve url_id for hashing
 	db.session.flush()
 	shorturl_entry.url_id = generateURLID(shorturl_entry.id)
 	db.session.commit()
@@ -47,6 +51,8 @@ def createURL():
 	return jsonify({"status": "success", "short_url_id": shorturl_entry.url_id})
 
 def isValidURL(url: str) -> bool:
+	# add HTTP to start of given URL if it is not present
+	# validators.url() treat URLs with HTTP to be invalid
 	if not url.startswith("http://") and not url.startswith("https://"):
 		url = "http://" + url
 
